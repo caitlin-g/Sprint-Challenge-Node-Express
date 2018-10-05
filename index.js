@@ -46,25 +46,27 @@ server.get("/api/projects/:id/actions", (req, res) => {
     );
 });
 
-// //Add a new User
-// server.post("/api/users", allCaps, (req, res) => {
-//   const newUser = req.body;
-//   if (newUser.name.length > 128) {
-//     return res.status(411).json({
-//       message: " The username must be under 129 characters."
-//     });
-//   }
-//   userDb
-//     .insert(newUser)
-//     .then(user => {
-//       res.status(201).json({ user, message: `User was added successfully!` });
-//     })
-//     .catch(err => {
-//       res.status(500).json({
-//         error: "There was an error while saving the user to the database."
-//       });
-//     });
-// });
+// //Add a new Project
+server.post("/api/projects", (req, res) => {
+  const newProject = req.body;
+  if (newProject.name.length > 128) {
+    return res.status(411).json({
+      message: "The project name must be under 129 characters."
+    });
+  }
+  projectDb
+    .insert(newProject)
+    .then(project => {
+      res
+        .status(201)
+        .json({ project, message: `Project was added successfully!` });
+    })
+    .catch(err => {
+      res.status(500).json({
+        error: "There was an error while saving the project to the database."
+      });
+    });
+});
 
 // //delete a user
 // server.delete("/api/users/:id", (req, res) => {
