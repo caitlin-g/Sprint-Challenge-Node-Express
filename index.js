@@ -27,24 +27,24 @@ server.get("/api/projects", (req, res) => {
     );
 });
 
-// //Get posts of a specific user
-// server.get("/api/users/:id/posts", (req, res) => {
-//   userDb
-//     .getUserPosts(req.params.id)
-//     .then(user => {
-//       if (user.length > 0) {
-//         res.json(user);
-//       } else
-//         res.status(404).json({
-//           message: "The user with the specified ID does not exist."
-//         });
-//     })
-//     .catch(err =>
-//       res
-//         .status(500)
-//         .json({ error: "The user information could not be retrieved." })
-//     );
-// });
+//Get actions of a specific project
+server.get("/api/projects/:id/actions", (req, res) => {
+  projectDb
+    .getProjectActions(req.params.id)
+    .then(project => {
+      if (project.length > 0) {
+        res.json(project);
+      } else
+        res.status(404).json({
+          message: "The project with the specified ID does not exist."
+        });
+    })
+    .catch(err =>
+      res
+        .status(500)
+        .json({ error: "The project information could not be retrieved." })
+    );
+});
 
 // //Add a new User
 // server.post("/api/users", allCaps, (req, res) => {
