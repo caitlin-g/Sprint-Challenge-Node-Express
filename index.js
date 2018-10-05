@@ -142,12 +142,10 @@ server.post("/api/actions", (req, res) => {
     });
   }
   if (!description || !project_id || !notes) {
-    return res
-      .status(400)
-      .json({
-        error:
-          "Please provide a description, project ID, and notes to your action."
-      });
+    return res.status(400).json({
+      error:
+        "Please provide a description, project ID, and notes to your action."
+    });
   }
   actionDb
     .insert(newAction)
@@ -163,26 +161,26 @@ server.post("/api/actions", (req, res) => {
     });
 });
 
-// //Delete a post
-// server.delete("/api/posts/:id", (req, res) => {
-//   const { id } = req.params;
-//   postDb
-//     .remove(id)
-//     .then(post => {
-//       if (post.length < 1) {
-//         res.status(404).json({
-//           message: "The post with that ID does not exist."
-//         });
-//       } else {
-//         res.status(200).json(post);
-//       }
-//     })
-//     .catch(err =>
-//       res.status(500).json({
-//         error: "The post could not be removed."
-//       })
-//     );
-// });
+// //Delete an action
+server.delete("/api/actions/:id", (req, res) => {
+  const { id } = req.params;
+  actionDb
+    .remove(id)
+    .then(action => {
+      if (action.length < 1) {
+        res.status(404).json({
+          message: "The action with that ID does not exist."
+        });
+      } else {
+        res.status(200).json({ action, message: "Your action was deleted!" });
+      }
+    })
+    .catch(err =>
+      res.status(500).json({
+        error: "The action could not be removed."
+      })
+    );
+});
 
 // //Update a post
 // server.put("/api/posts/:id", (req, res) => {
