@@ -68,28 +68,28 @@ server.post("/api/projects", (req, res) => {
     });
 });
 
-// //delete a user
-// server.delete("/api/users/:id", (req, res) => {
-//   const { id } = req.params;
-//   userDb
-//     .remove(id)
-//     .then(user => {
-//       if (user.length < 1) {
-//         res.status(404).json({
-//           message: "The user with the specified ID does not exist."
-//         });
-//       } else {
-//         res
-//           .status(200)
-//           .json({ user, message: "The user was deleted successfully!" });
-//       }
-//     })
-//     .catch(err =>
-//       res.status(500).json({
-//         error: "The user could not be removed."
-//       })
-//     );
-// });
+//delete a project
+server.delete("/api/projects/:id", (req, res) => {
+  const { id } = req.params;
+  projectDb
+    .remove(id)
+    .then(project => {
+      if (project.length < 1) {
+        res.status(404).json({
+          message: "The project with the specified ID does not exist."
+        });
+      } else {
+        res
+          .status(200)
+          .json({ project, message: "The project was deleted successfully!" });
+      }
+    })
+    .catch(err =>
+      res.status(500).json({
+        error: "The project could not be removed."
+      })
+    );
+});
 
 // //Update a user
 // server.put("/api/users/:id", allCaps, (req, res) => {
