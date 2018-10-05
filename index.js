@@ -118,18 +118,18 @@ server.put("/api/projects/:id", (req, res) => {
 // //=============== ACTION ENDPOINTS =============== //
 
 // //Get all posts
-// server.get("/api/posts", (req, res) => {
-//   postDb
-//     .get()
-//     .then(post => {
-//       res.json(post);
-//     })
-//     .catch(err =>
-//       res.status(500).json({
-//         error: "The post information could not be retrieved."
-//       })
-//     );
-// });
+server.get("/api/actions", (req, res) => {
+  actionDb
+    .get()
+    .then(action => {
+      res.json(action);
+    })
+    .catch(err =>
+      res.status(500).json({
+        error: "The action information could not be retrieved."
+      })
+    );
+});
 
 // //Add a new post
 // server.post("/api/posts/", (req, res) => {
