@@ -118,7 +118,7 @@ server.put("/api/projects/:id", (req, res) => {
 
 // //=============== ACTION ENDPOINTS =============== //
 
-// //Get all posts
+// //Get all actions
 server.get("/api/actions", (req, res) => {
   actionDb
     .get()
@@ -182,33 +182,39 @@ server.delete("/api/actions/:id", (req, res) => {
     );
 });
 
-// //Update a post
-// server.put("/api/posts/:id", (req, res) => {
-//   const { id } = req.params;
-//   const { text, userId } = req.body;
-//   const newPost = { text, userId };
-//   if (!text || !userId) {
-//     return res
-//       .status(400)
-//       .json({ error: "Please provide a userId and text for the post." });
-//   }
-//   postDb
-//     .update(id, newPost)
-//     .then(post => {
-//       if (post.length < 1) {
-//         res.status(404).json({
-//           message: "The post with the specified ID does not exist."
-//         });
-//       } else {
-//         res.status(200).json(post);
-//       }
-//     })
-//     .catch(err =>
-//       res.status(500).json({
-//         error: "The post information could not be modified.."
-//       })
-//     );
-// });
+//Update an action
+server.put("/api/actions/:id", (req, res) => {
+  const { id } = req.params;
+  const { project_id, description, notes, completed } = req.body;
+  const newAction = { project_id, description, notes, completed };
+  if (newAction.description.length > 128) {
+    return res.status(411).json({
+      message: "The action desciption must be under 129 characters."
+    });
+  }
+  if (!description || !project_id || !notes) {
+    return res.status(400).json({
+      error:
+        "Please provide a description, project ID, and notes to your action."
+    });
+  }
+  actionDb
+    .update(id, newAction)
+    .then(action => {
+      if (action.length < 1) {
+        res.status(404).json({
+          message: "The action with the specified ID does not exist."
+        });
+      } else {
+        res.status(200).json({ action, message: "Your actions was updated!" });
+      }
+    })
+    .catch(err =>
+      res.status(500).json({
+        error: "The action information could not be modified."
+      })
+    );
+});
 
 server.listen(port, () => {
   console.log(`\n === API running on port ${port} ===\n`);
