@@ -91,29 +91,29 @@ server.delete("/api/projects/:id", (req, res) => {
     );
 });
 
-// //Update a user
-// server.put("/api/users/:id", allCaps, (req, res) => {
-//   const { id } = req.params;
-//   const newUser = req.body;
-//   userDb
-//     .update(id, newUser)
-//     .then(user => {
-//       if (user.length < 1) {
-//         res.status(404).json({
-//           message: "The user with the specified ID does not exist."
-//         });
-//       } else {
-//         res
-//           .status(200)
-//           .json({ user, message: "The user was successfully updated!" });
-//       }
-//     })
-//     .catch(err =>
-//       res.status(500).json({
-//         error: "The user information could not be modified.."
-//       })
-//     );
-// });
+// //Update a project
+server.put("/api/projects/:id", (req, res) => {
+  const { id } = req.params;
+  const newProject = req.body;
+  projectDb
+    .update(id, newProject)
+    .then(project => {
+      if (project.length < 1) {
+        res.status(404).json({
+          message: "The project with the specified ID does not exist."
+        });
+      } else {
+        res
+          .status(200)
+          .json({ project, message: "The project was successfully updated!" });
+      }
+    })
+    .catch(err =>
+      res.status(500).json({
+        error: "The project information could not be modified."
+      })
+    );
+});
 
 // //=============== ACTION ENDPOINTS =============== //
 
