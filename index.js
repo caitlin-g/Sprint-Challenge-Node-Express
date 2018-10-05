@@ -94,7 +94,8 @@ server.delete("/api/projects/:id", (req, res) => {
 // //Update a project
 server.put("/api/projects/:id", (req, res) => {
   const { id } = req.params;
-  const newProject = req.body;
+  const { name, description, completed } = req.body;
+  const newProject = { name, description, completed };
   projectDb
     .update(id, newProject)
     .then(project => {
@@ -131,24 +132,36 @@ server.get("/api/actions", (req, res) => {
     );
 });
 
-// //Add a new post
-// server.post("/api/posts/", (req, res) => {
-//   const { text, userId } = req.body;
-//   const newPost = { text, userId };
-//   if (!text || !userId) {
-//     return res.status(400).json({ error: "Please provide text to your post." });
-//   }
-//   postDb
-//     .insert(newPost)
-//     .then(post => {
-//       res.status(201).json(post);
-//     })
-//     .catch(err => {
-//       res.status(500).json({
-//         error: "There was an error saving your post."
-//       });
-//     });
-// });
+//Add a new action
+server.post("/api/actions", (req, res) => {
+  const { project_id, description, notes, completed } = req.body;
+  const newAction = { project_id, description, notes, completed };
+  if (newAction.description.length > 128) {
+    return res.status(411).json({
+      message: "The action desciption must be under 129 characters."
+    });
+  }
+  if (!description || !project_id || !notes) {
+    return res
+      .status(400)
+      .json({
+        error:
+          "Please provide a description, project ID, and notes to your action."
+      });
+  }
+  actionDb
+    .insert(newAction)
+    .then(action => {
+      res
+        .status(201)
+        .json({ action, message: "Your action was added successfully!" });
+    })
+    .catch(err => {
+      res.status(500).json({
+        error: "There was an error saving your action."
+      });
+    });
+});
 
 // //Delete a post
 // server.delete("/api/posts/:id", (req, res) => {
